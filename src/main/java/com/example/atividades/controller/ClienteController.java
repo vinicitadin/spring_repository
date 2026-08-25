@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/clientes")
@@ -25,7 +26,14 @@ public class ClienteController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Cliente>> listar() {
+    public ResponseEntity<?> listar(@RequestParam(required = false) String email) {
+        if (email != null) {
+            Optional<Cliente> cliente = repository.findByEmailIgnoreCase(email);
+            if (cliente.isPresent()) {
+                return ResponseEntity.ok(cliente.get());
+            }
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(repository.findAll());
     }
 }
