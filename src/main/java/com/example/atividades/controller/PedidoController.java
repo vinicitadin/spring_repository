@@ -22,6 +22,9 @@ public class PedidoController {
 
     @PostMapping
     public ResponseEntity<Pedido> cadastrar(@RequestBody Pedido pedido) {
+        if (pedido.getData().isAfter(LocalDate.now())) {
+            return ResponseEntity.badRequest().build();
+        }
         Pedido salvo = repository.save(pedido);
         return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
     }
