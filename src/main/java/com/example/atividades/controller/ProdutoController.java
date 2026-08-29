@@ -25,9 +25,13 @@ public class ProdutoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Produto>> buscar(@RequestParam(required = false) String nome) {
+    public ResponseEntity<List<Produto>> buscar(@RequestParam(required = false) String nome,
+                                                @RequestParam(required = false) Double precoMin, @RequestParam(required = false) Double precoMax) {
         if (nome != null) {
             return ResponseEntity.ok(repository.findByNomeContainingIgnoreCase(nome));
+        }
+        if (precoMin != null && precoMax != null) {
+            return ResponseEntity.ok(repository.findAllByPrecoBetween(precoMin, precoMax));
         }
         return  ResponseEntity.ok(repository.findAll());
     }
