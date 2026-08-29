@@ -20,6 +20,9 @@ public class ProdutoController {
 
     @PostMapping
     public ResponseEntity<Produto> cadastrar(@RequestBody Produto produto) {
+        if (produto.getPreco() < 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
         Produto salvo = repository.save(produto);
         return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
     }
