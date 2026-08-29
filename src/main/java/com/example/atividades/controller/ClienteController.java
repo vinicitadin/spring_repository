@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -21,6 +20,11 @@ public class ClienteController {
 
     @PostMapping
     public ResponseEntity<Cliente> cadastrar(@RequestBody Cliente cliente) {
+        Optional<Cliente> clienteCadastrado = repository.findByEmailIgnoreCase(cliente.getEmail());
+        if (clienteCadastrado.isPresent())
+        {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
         Cliente clienteSalvo = repository.save(cliente);
         return ResponseEntity.status(HttpStatus.CREATED).body(clienteSalvo);
     }
