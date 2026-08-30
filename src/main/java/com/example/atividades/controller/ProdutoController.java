@@ -23,6 +23,9 @@ public class ProdutoController {
         if (produto.getPreco() < 0) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
+        if (produto.getNome().length() < 3) {
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
+        }
         Produto salvo = repository.save(produto);
         return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
     }
