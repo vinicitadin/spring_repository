@@ -40,4 +40,15 @@ public class ClienteController {
         }
         return ResponseEntity.ok(repository.findAll());
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id)
+    {
+        Optional<Cliente> cliente = repository.findById(id);
+        if (cliente.isPresent()) {
+            repository.deleteById(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
 }
