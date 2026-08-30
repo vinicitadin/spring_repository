@@ -41,6 +41,17 @@ public class ClienteController {
         return ResponseEntity.ok(repository.findAll());
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<Cliente> atualizarEmail(@PathVariable Long id, @RequestBody Cliente clienteAtualizado) {
+        Optional<Cliente> cliente = repository.findById(id);
+        if (cliente.isPresent() && clienteAtualizado.getEmail() != null) {
+            cliente.get().setEmail(clienteAtualizado.getEmail());
+            Cliente salvo = repository.save(cliente.get());
+            return ResponseEntity.ok(salvo);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id)
     {
