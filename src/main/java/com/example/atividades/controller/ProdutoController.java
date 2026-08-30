@@ -39,4 +39,8 @@ public class ProdutoController {
         return  ResponseEntity.ok(repository.findAll());
     }
 
+    @GetMapping("/mais-baratos")
+    public ResponseEntity<List<Produto>> buscarMaisBaratos() {
+        return ResponseEntity.ok(repository.findTop5ByOrderByPrecoAsc());
+    }
 }
