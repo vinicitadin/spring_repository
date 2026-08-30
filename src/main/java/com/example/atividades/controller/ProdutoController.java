@@ -36,7 +36,14 @@ public class ProdutoController {
         if (precoMin != null && precoMax != null) {
             return ResponseEntity.ok(repository.findAllByPrecoBetween(precoMin, precoMax));
         }
-        return  ResponseEntity.ok(repository.findAll());
+
+        List<Produto> produtos = repository.findAll();
+        if (produtos.isEmpty())
+        {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+
+        return ResponseEntity.ok(produtos);
     }
 
     @GetMapping("/mais-baratos")
