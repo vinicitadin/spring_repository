@@ -2,7 +2,6 @@ package com.example.atividades.controller;
 
 import com.example.atividades.entity.Pedido;
 import com.example.atividades.repository.PedidoRepository;
-import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
